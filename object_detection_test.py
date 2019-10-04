@@ -6,6 +6,10 @@ from keras.models import Model
 from keras.preprocessing import image
 import numpy as np
 
+path_dir_train = '/home/ubuntu/Deep-Learning/plant-classification/load_data/train/'
+# path_dir_validate = '/home/ubuntu/Deep-Learning/plant-classification/load_data/'
+path_dir_test = '/home/ubuntu/Deep-Learning/plant-classification/load_data/test/'
+
 base_model=MobileNet(weights='imagenet',include_top=False)
 
 x=base_model.output
@@ -17,14 +21,14 @@ preds=Dense(3,activation='softmax')(x)
 
 model=Model(inputs=base_model.input,outputs=preds)
 
-for layer in model.layers[:18]:
+for layer in model.layers[:20]:
     layer.trainable=False
-for layer in model.layers[18:]:
+for layer in model.layers[20:]:
     layer.trainable=True
 
 train_datagen=ImageDataGenerator(preprocessing_function=preprocess_input)
 
-train_generator=train_datagen.flow_from_directory('/home/ubuntu/Deep-Learning/plant-classification/load_data/train',
+train_generator=train_datagen.flow_from_directory(path_dir_train,
                                                  target_size=(224,224),
                                                  color_mode='rgb',
                                                  batch_size=32,

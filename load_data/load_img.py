@@ -3,9 +3,9 @@ import pandas as pd
 import os
 
 #set necessary file path
-path_file= "/home/ubuntu/Deep-Learning/load_data"
-path_dir_test= "/home/ubuntu/Deep-Learning/load_data/test/{}"
-path_dir_train= "/home/ubuntu/Deep-Learning/load_data/train/{}"
+path_file= "/home/ubuntu/Deep-Learning/plant-classification/load_data"
+path_dir_test= "/home/ubuntu/Deep-Learning/plant-classification/load_data/test/{}"
+path_dir_train= "/home/ubuntu/Deep-Learning/plant-classification/load_data/train/{}"
 #path_file= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data'
 #path_dir_test= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/test/{}'
 #path_dir_train= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/train/{}'
