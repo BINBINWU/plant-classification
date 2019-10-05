@@ -3,9 +3,12 @@ import pandas as pd
 import os
 
 #set necessary file path
-path_file= "/home/ubuntu/Deep-Learning/plant-classification/load_data"
-path_dir_test= "/home/ubuntu/Deep-Learning/plant-classification/load_data/test/{}"
-path_dir_train= "/home/ubuntu/Deep-Learning/plant-classification/load_data/train/{}"
+
+path_file= "/home/ubuntu/Deep-Learning/load_data"
+path_dir_test= "/home/ubuntu/Deep-Learning/load_data/test/{}"
+path_dir_train= "/home/ubuntu/Deep-Learning/load_data/train/{}"
+path_dir_validation= "/home/ubuntu/Deep-Learning/load_data/validation/{}"
+
 #path_file= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data'
 #path_dir_test= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/test/{}'
 #path_dir_train= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/train/{}'
@@ -43,12 +46,21 @@ for file in numFiles:
         except Exception as e:
             print(e)
             continue
-    for i in range(501,700):
+
+    for i in range(501, 700):
         try:
             downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
         except Exception as e:
             print(e)
             continue
+
+    for i in range(701,900):
+        try:
+            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
+        except Exception as e:
+            print(e)
+            continue
+
 
 
 
