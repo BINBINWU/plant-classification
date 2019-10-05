@@ -3,11 +3,13 @@ import pandas as pd
 import os
 
 #set necessary file path
-#path_file= "/home/ubuntu/Deep-Learning/load_data"
-#path_dir= "/home/ubuntu/Deep-Learning/load_data/test/{}"
-path_file= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data'
-path_dir_test= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/test/{}'
-path_dir_train= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/train/{}'
+path_file= "/home/ubuntu/Deep-Learning/load_data"
+path_dir_test= "/home/ubuntu/Deep-Learning/load_data/test/{}"
+path_dir_train= "/home/ubuntu/Deep-Learning/load_data/train/{}"
+path_dir_validation= "/home/ubuntu/Deep-Learning/load_data/validation/{}"
+#path_file= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data'
+#path_dir_test= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/test/{}'
+#path_dir_train= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/train/{}'
 #path_dir_validation= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/validation/{}'
 
 #set url opener
@@ -36,18 +38,26 @@ for file in numFiles:
     os.makedirs(path_dir_train.format(dir_name), mode=0o777, exist_ok=True)
     os.makedirs(path_dir_test.format(dir_name), mode=0o777, exist_ok=True)
 
-    for i in range(10):
+    for i in range(500):
         try:
             downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_train.format(dir_name))
         except Exception as e:
             print(e)
             continue
-    for i in range(11,20):
+    for i in range(501, 700):
         try:
             downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
         except Exception as e:
             print(e)
             continue
+
+    for i in range(701,900):
+        try:
+            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
+        except Exception as e:
+            print(e)
+            continue
+
 
 
 
