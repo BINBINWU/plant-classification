@@ -7,26 +7,28 @@ from keras.layers import Convolution2D, MaxPooling2D, ZeroPadding2D
 from keras import optimizers
 
 path_dir_train = '/home/ubuntu/Deep-Learning/plant-classification/load_data/train/'
-# path_dir_validate = '/home/ubuntu/Deep-Learning/plant-classification/load_data/'
+path_dir_validate = '/home/ubuntu/Deep-Learning/plant-classification/load_data/validation/'
 path_dir_test = '/home/ubuntu/Deep-Learning/plant-classification/load_data/test/'
 
 img_width = 150
 img_height = 150
 
 generator = ImageDataGenerator(rescale=1./255)
-train_generator = generator.flow_from_directory(path_dir_train,
-                                                target_size=(img_width, img_height),
-                                                batch_size=16,
-                                                class_mode='categorical')
+
+train_generator = generator.flow_from_directory(
+    path_dir_train,
+    target_size=(img_width, img_height),
+    batch_size=16,
+    class_mode='categorical')
 
 
-# validation_generator = generator.flow_from_directory(
-#     path_dir_validate,
-#     target_size=(img_width, img_height),
-#     batch_size=32,
-#     class_mode='binary')
+validation_generator = generator.flow_from_directory(
+    path_dir_validate,
+    target_size=(img_width, img_height),
+    batch_size=16,
+    class_mode='categorical')
 
-#define model
+# #define model
 model = Sequential()
 model.add(Convolution2D(32, 3, 3, input_shape=(img_width, img_height,3)))
 model.add(Activation('relu'))
@@ -53,17 +55,17 @@ model.compile(optimizer='adam',
 
 epochs = 10
 num_train = 9982
-# num_validate = 0
+num_validate = 3980
 
-
-# model.fit_generator(
-#     train_generator,
-#     samples_per_epoch=num_train,
-#     nb_epoch=epochs,
-#     validation_data=validation_generator,
-#     nb_val_samples=num_validate)
 
 model.fit_generator(
     train_generator,
     samples_per_epoch=num_train,
-    nb_epoch=epochs)
+    nb_epoch=epochs,
+    validation_data=validation_generator,
+    nb_val_samples=num_validate)
+
+# model.fit_generator(
+#     train_generator,
+#     samples_per_epoch=num_train,
+#     nb_epoch=epochs)

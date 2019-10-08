@@ -4,10 +4,10 @@ import os
 
 #set necessary file path
 
-path_file= "/home/ubuntu/Deep-Learning/load_data"
-path_dir_test= "/home/ubuntu/Deep-Learning/load_data/test/{}"
-path_dir_train= "/home/ubuntu/Deep-Learning/load_data/train/{}"
-path_dir_validation= "/home/ubuntu/Deep-Learning/load_data/validation/{}"
+path_file= "/home/ubuntu/Deep-Learning/plant-classification/load_data"
+path_dir_test= "/home/ubuntu/Deep-Learning/plant-classification/load_data/test/{}"
+path_dir_train= "/home/ubuntu/Deep-Learning/plant-classification/load_data/train/{}"
+path_dir_validation= "/home/ubuntu/Deep-Learning/plant-classification/load_data/validation/{}"
 
 #path_file= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data'
 #path_dir_test= '/Users/binbinwu/Desktop/Capstone/Deep-Learning/load_data/test/{}'
@@ -39,6 +39,7 @@ for file in numFiles:
     dir_name=url['scientific_name'][0]
     os.makedirs(path_dir_train.format(dir_name), mode=0o777, exist_ok=True)
     os.makedirs(path_dir_test.format(dir_name), mode=0o777, exist_ok=True)
+    os.makedirs(path_dir_validation.format(dir_name), mode=0o777, exist_ok=True)
 
     for i in range(500):
         try:
@@ -56,11 +57,7 @@ for file in numFiles:
 
     for i in range(701,900):
         try:
-            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
+            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_validation.format(dir_name))
         except Exception as e:
             print(e)
             continue
-
-
-
-
