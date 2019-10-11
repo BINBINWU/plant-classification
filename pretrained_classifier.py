@@ -1,7 +1,8 @@
-from keras.models import Sequential
-from keras.layers import Activation, Dropout, Flatten, Dense
+from keras.layers import Dense
 from keras.preprocessing.image import ImageDataGenerator
-from keras.layers import Convolution2D, MaxPooling2D
+from keras.applications import MobileNet
+from keras.models import Model
+from keras.layers import GlobalAveragePooling2D
 from keras.utils import plot_model
 from IPython.display import SVG
 from keras.utils import model_to_dot
@@ -19,28 +20,37 @@ generator = ImageDataGenerator(rescale=1./255)
 train_generator = generator.flow_from_directory(
     path_dir_train,
     target_size=(img_width, img_height),
-    batch_size=16,
+    batch_size=4,
     class_mode='categorical')
 
 
 validation_generator = generator.flow_from_directory(
     path_dir_validate,
     target_size=(img_width, img_height),
-    batch_size=32,
+    batch_size=4,
     class_mode='categorical')
 
 base_model=MobileNet(weights='imagenet',include_top=False)
 
+x=base_model.output
+x=GlobalAveragePooling2D()(x)
+x=Dense(1024,activation='relu')(x)
+x=Dense(1024,activation='relu')(x)
+x=Dense(512,activation='relu')(x)
+preds=Dense(10,activation='softmax')(x)
+
 model=Model(inputs=base_model.input,outputs=preds)
 
-for layer in model.layers[:19]:
+for layer in model.layers[:20]:
     layer.trainable=False
-for layer in model.layers[19:]:
+for layer in model.layers[20:]:
     layer.trainable=True
 
 epochs = 10
 num_train = 4994
 num_validate = 1989
+
+model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
 
 # visualizations
 plot_model(model, to_file='model.png')
