@@ -7,6 +7,8 @@ from keras.utils import plot_model
 from IPython.display import SVG
 from keras.utils import model_to_dot
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import numpy as np
 
 path_dir_train = '/home/ubuntu/Deep-Learning/plant-classification/load_data/train/'
 path_dir_validate = '/home/ubuntu/Deep-Learning/plant-classification/load_data/validation/'
@@ -20,15 +22,22 @@ generator = ImageDataGenerator(rescale=1./255)
 train_generator = generator.flow_from_directory(
     path_dir_train,
     target_size=(img_width, img_height),
-    batch_size=4,
+    batch_size=16,
     class_mode='categorical')
 
 
 validation_generator = generator.flow_from_directory(
     path_dir_validate,
     target_size=(img_width, img_height),
-    batch_size=4,
+    batch_size=16,
     class_mode='categorical')
+
+test_generator = generator.flow_from_directory(
+    path_dir_test,
+    target_size=(img_width, img_height),
+    batch_size=16,
+    class_mode='categorical'
+)
 
 base_model=MobileNet(weights='imagenet',include_top=False)
 
@@ -46,9 +55,10 @@ for layer in model.layers[:20]:
 for layer in model.layers[20:]:
     layer.trainable=True
 
-epochs = 10
+epochs = 30
 num_train = 4994
 num_validate = 1989
+num_test = 1990
 
 model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
 
@@ -64,6 +74,23 @@ history = model.fit_generator(
     validation_data=validation_generator,
     nb_val_samples=num_validate
 )
+
+# model.predict_generator(test_generator)
+# history.evaluate_generator(test_generator)
+model.save('pretrained_model.h5')
+loss, acc = model.evaluate_generator(test_generator, verbose = 0)
+print(acc*100)
+# probabilities = model.predict_generator(test_generator, nb_test_samples= num_test)
+# pred= model.predict_generator(test_generator, num_test // 4)
+# predicted_class_indices=np.argmax(pred,axis=1)
+# labels = (test_generator.class_indices)
+# labels2 = dict((v,k) for k,v in labels.items())
+# predictions = [labels2[k] for k in predicted_class_indices]
+# print(predicted_class_indices)
+# print(labels)
+# print(predictions)
+# print(confusion_matrix(predicted_class_indices,labels))
+
 
 # Plot training & validation accuracy values
 plt.plot(history.history['acc'])
