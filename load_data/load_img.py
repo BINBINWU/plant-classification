@@ -1,8 +1,14 @@
 import urllib.request
 import pandas as pd
 import os
+import shutil
 
 #set necessary file path
+
+# path_file= "/home/ubuntu/Deep-Learning/load_data"
+# path_dir_test= "/home/ubuntu/Deep-Learning/load_data/test/{}"
+# path_dir_train= "/home/ubuntu/Deep-Learning/load_data/train/{}"
+# path_dir_validation= "/home/ubuntu/Deep-Learning/load_data/validation/{}"
 
 path_file= "/home/ubuntu/Deep-Learning/plant-classification/load_data"
 path_dir_test= "/home/ubuntu/Deep-Learning/plant-classification/load_data/test/{}"
@@ -37,27 +43,95 @@ for fileNames in fileNames:
 for file in numFiles:
     url = pd.read_csv(file)
     dir_name=url['scientific_name'][0]
-    os.makedirs(path_dir_train.format(dir_name), mode=0o777, exist_ok=True)
-    os.makedirs(path_dir_test.format(dir_name), mode=0o777, exist_ok=True)
-    os.makedirs(path_dir_validation.format(dir_name), mode=0o777, exist_ok=True)
 
-    for i in range(500):
-        try:
-            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_train.format(dir_name))
-        except Exception as e:
-            print(e)
-            continue
+    if os.path.exists(path_dir_train.format(dir_name)) and os.path.isdir(path_dir_train.format(dir_name)):
+        if not os.listdir(path_dir_train.format(dir_name)):
+            shutil.rmtree(path_dir_train.format(dir_name), ignore_errors=True)
+            shutil.rmtree(path_dir_test.format(dir_name), ignore_errors=True)
+            shutil.rmtree(path_dir_validation.format(dir_name), ignore_errors=True)
+        else:
+            print(2)
+            for i in range(1000):
+                try:
+                    if(not os.path.exists(os.path.join(path_dir_train.format(dir_name),
+                                                   str(url['scientific_name'][i]) + '.' + str(i) + '.jpg'))):
+                        print('2_1')
+                        downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_train.format(dir_name))
+                except Exception as e:
+                    print(e)
+                    continue
 
-    for i in range(501, 700):
-        try:
-            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
-        except Exception as e:
-            print(e)
-            continue
+            for i in range(3000, 3200):
+                try:
+                    if (not os.path.exists(os.path.join(path_dir_test.format(dir_name),
+                                                    str(url['scientific_name'][i]) + '.' + str(i) + '.jpg'))):
+                        print('2_2')
+                        downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
+                except Exception as e:
+                    print(e)
+                    continue
 
-    for i in range(701,900):
-        try:
-            downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_validation.format(dir_name))
-        except Exception as e:
-            print(e)
-            continue
+            for i in range(4000, 4200):
+                try:
+                    if (not os.path.exists(os.path.join(path_dir_validation.format(dir_name),
+                                                    str(url['scientific_name'][i]) + '.' + str(i) + '.jpg'))):
+                        print('2_3')
+                        downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_validation.format(dir_name))
+                except Exception as e:
+                    print(e)
+                    continue
+    else:
+        os.makedirs(path_dir_train.format(dir_name), mode=0o777, exist_ok=True)
+        os.makedirs(path_dir_test.format(dir_name), mode=0o777, exist_ok=True)
+        os.makedirs(path_dir_validation.format(dir_name), mode=0o777, exist_ok=True)
+
+        for i in range(1000):
+            try:
+                downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_train.format(dir_name))
+            except Exception as e:
+                print(e)
+                continue
+
+        for i in range(3000, 3200):
+            try:
+                downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
+            except Exception as e:
+                print(e)
+                continue
+
+        for i in range(4000, 4200):
+            try:
+                downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_validation.format(dir_name))
+            except Exception as e:
+                print(e)
+                continue
+
+    # shutil.rmtree(path_dir_train.format(dir_name), ignore_errors=True)
+    # shutil.rmtree(path_dir_test.format(dir_name), ignore_errors=True)
+    # shutil.rmtree(path_dir_validation.format(dir_name), ignore_errors=True)
+
+    # os.makedirs(path_dir_train.format(dir_name), mode=0o777, exist_ok=True)
+    # os.makedirs(path_dir_test.format(dir_name), mode=0o777, exist_ok=True)
+    # os.makedirs(path_dir_validation.format(dir_name), mode=0o777, exist_ok=True)
+
+
+    # for i in range(1000):
+    #     try:
+    #         downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_train.format(dir_name))
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+    #
+    # for i in range(3000, 3200):
+    #     try:
+    #         downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_test.format(dir_name))
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+    #
+    # for i in range(4000,4200):
+    #     try:
+    #         downloader(url['image_url'][i], url['scientific_name'][i], i, path_dir_validation.format(dir_name))
+    #     except Exception as e:
+    #         print(e)
+    #         continue
