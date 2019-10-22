@@ -18,6 +18,7 @@ def data_augmentation(dir_path):
     img_files = os.listdir(dir_path)
 
     for file in img_files:
+
         image_path = dir_path + file
         # read image
         img = cv2.imread(image_path)
@@ -32,20 +33,24 @@ def data_augmentation(dir_path):
 
         # thresholding
         ret, thresh_binary = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)
-        ret, thresh_binary_inv = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY_INV)
-        ret, thresh_trunc = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TRUNC)
-        ret, thresh_tozero = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TOZERO)
-        ret, thresh_tozero_inv = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TOZERO_INV)
+        # ret, thresh_binary_inv = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY_INV)
+        # ret, thresh_trunc = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TRUNC)
+        # ret, thresh_tozero = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TOZERO)
+        # ret, thresh_tozero_inv = cv2.threshold(img_gray, 127, 255, cv2.THRESH_TOZERO_INV)
 
-        img_output_list = [img_gray, img_hsv, edges, thresh_binary, thresh_binary_inv, thresh_trunc, thresh_tozero,
-                       thresh_tozero_inv]
-        outnames_list = ['gray', 'hsv', 'edges', 'binary_thresh', 'binary_inv_thresh', 'trunc_thresh',
-                      'tozero_thresh', 'tozero_inv_thresh']
+        img_output_list = [img_gray, img_hsv, edges, thresh_binary]
+        #, thresh_binary_inv, thresh_trunc, thresh_tozero,thresh_tozero_inv
+        outnames_list = ['gray', 'hsv', 'edges', 'binary_thresh']
+        #, 'binary_inv_thresh', 'trunc_thresh','tozero_thresh', 'tozero_inv_thresh'
         for i in range(len(outnames_list)):
-            outname = image_path.replace('.jpg',outnames_list[i] + '.jpg' )
-            cv2.imwrite(outname,image_output_list[i])
+            outname = image_path.replace('.jpg','.' + outnames_list[i] + '.jpg' )
+            cv2.imwrite(outname,img_output_list[i])
 
 path_dir_train = '/home/ubuntu/Deep-Learning/plant-classification/load_data/train/'
+species_classes = os.listdir(path_dir_train)
+
+for i in range(len(species_classes)):
+    data_augmentation(path_dir_train + species_classes[i]+ '/')
 
 
 
