@@ -39,7 +39,7 @@ validation_generator = generator.flow_from_directory(
 
 # #define model
 model = Sequential()
-model.add(Convolution2D(32, 5, 5, input_shape=(img_width, img_height,3)))
+model.add(Convolution2D(32, 15, 15, input_shape=(img_width, img_height,3)))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -65,13 +65,13 @@ model.add(Dense(256))
 model.add(Activation('relu'))
 model.add(Dropout(0.1))
 #for 10 classes
-#model.add(Dense(10))
+model.add(Dense(10))
 #for 20 classes
-model.add(Dense(20))
+# model.add(Dense(20))
 model.add(Activation('softmax'))
 
 AdamOP=optimizers.adam(lr=0.001)
-
+model.summary()
 model.compile(optimizer=AdamOP,
               loss='categorical_crossentropy',
               metrics=['accuracy'])
@@ -91,7 +91,7 @@ history = model.fit_generator(
     nb_epoch=epochs,
     validation_data=validation_generator,
     #validation_steps=800,
-    callbacks=[ModelCheckpoint("/home/ubuntu/Deep-Learning/plant-classification/pc.hdf5", monitor="val_loss", save_best_only=True)]
+    callbacks=[ModelCheckpoint("/home/ubuntu/Deep-Learning/plant-classification/2x2_pool_15x15_conv.hdf5", monitor="val_loss", save_best_only=True)]
 
 )
 

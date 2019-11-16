@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+<h2>Plant Species Classifier</h2>
+
+<div>
+    <form id="upload" method="post" enctype="multipart/form-data">
+        <label for="uploadImg" class="upload-label">
+            Choose...
+        </label>
+        <input type="file" name="image" id="uploadImg" accept=".jpg">
+    </form>
+
+    <div class="image-display" style="display:none;">
+        <div class="view">
+            <div id="viewImg">
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary btn-lg " id="btn-predict">Predict!</button>
+        </div>
+    </div>
+
+    <div class="loader" style="display:none;"></div>
+
+    <h3 id="result">
+        <span> </span>
+    </h3>
+
+</div>
+{% endblock %}
