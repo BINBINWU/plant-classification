@@ -10,11 +10,11 @@ import os
 
 app = Flask(__name__)
 
-m_path = '/Users/vitale/Desktop/GW_data_science/GW_2018-2019/Fall_2019/machine_learning_2/capstone_flask_app/plant_classifier_1.hdf5'
+m_path = '/Users/vitale/Desktop/GW_data_science/GW_2018-2019/Fall_2019/machine_learning_2/aws_deep_learning/plant-classification/capstone_flask_app/pre_pc_new.h5'
 model = load_model(m_path)
 
 def predict(img):
-    im = image.load_img(img, target_size=(150, 150), interpolation="lanczos")
+    im = image.load_img(img, target_size=(128, 128), interpolation="lanczos")
     im = image.img_to_array(im)
     im = im / 255
     im = np.expand_dims(im, axis=0)
@@ -48,6 +48,7 @@ def upload():
 if __name__ == '__main__':
     http_server = WSGIServer(('0.0.0.0', 5000), app)
     http_server.serve_forever()
+
 
 
 # run with:
