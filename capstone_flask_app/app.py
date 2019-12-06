@@ -7,6 +7,9 @@ from flask import Flask, request, render_template
 import numpy as np
 import os
 
+# This app was used for demonstration purposes only
+# Flask app demonstration built from https://github.com/mtobeiyf/keras-flask-deploy-webapp as a template.
+# much of the code in this app used directly from the above github
 
 app = Flask(__name__)
 
